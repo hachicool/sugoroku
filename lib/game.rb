@@ -11,33 +11,36 @@
   def set_dice(dice)
     @dice = dice
   end
+  def set_logger(logger)
+    @logger = logger
+  end
   def start
     @player.map(&:reset)
-    puts "game start!!"
+    @logger.start
     1000.times{|i|
       j = i % @player.length
       player = @player[j]
-      puts %(=== [#{i}] #{player.get_name}'s turn ===)
+      @logger.turn(player.get_name, i)
       n = @dice.get
-      puts %(Dice number is #{n})
+      @logger.dice(n)
       
       m = player.step(n) 
       if @board.goal?(m)
-        puts %(Goooooaaaaal!!!)
+        @logger.goal
         break
       end
-      puts %(Player at #{m})
+      @logger.at(m)
       
       q = @board.get(m)
-      puts %(cell order: #{q})
+      @logger.order(q)
       
       r = player.step(q)
       if @board.goal?(r)
-        puts %(Goooooaaaaal!!!)
+        @logger.goal
         break
       end
-      puts %(Player at #{r})
+      @logger.at(r)
     }
-    puts "finish!!"
+    @logger.finish
   end
 end
