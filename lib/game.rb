@@ -17,7 +17,8 @@
   def start
     @player.map(&:reset)
     @logger.start
-    1000.times{|i|
+    i = 0
+    while true do
       j = i % @player.length
       player = @player[j]
       @logger.turn(player.get_name, i)
@@ -40,7 +41,8 @@
         break
       end
       @logger.at(r)
-    }
+      i += 1
+    end
     @logger.finish
   end
 end
